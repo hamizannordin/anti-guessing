@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -22,6 +24,7 @@ import javax.persistence.Temporal;
 public class Betting implements Serializable {
     
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigInteger betting_id;
     private int digit_0;
     private int digit_1;
@@ -31,9 +34,9 @@ public class Betting implements Serializable {
     private int digit_5;
     private int digit_6;
     private int digit_7;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date insert_datetime;
-    private Round round_id;
+    //private Round round_id;
 
     public Betting() {
     }
@@ -118,11 +121,11 @@ public class Betting implements Serializable {
         this.insert_datetime = insert_datetime;
     }
 
-    public Round getRound_id() {
-        return round_id;
-    }
-
-    public void setRound_id(Round round_id) {
-        this.round_id = round_id;
-    }
+//    public Round getRound_id() {
+//        return round_id;
+//    }
+//
+//    public void setRound_id(Round round_id) {
+//        this.round_id = round_id;
+//    }
 }

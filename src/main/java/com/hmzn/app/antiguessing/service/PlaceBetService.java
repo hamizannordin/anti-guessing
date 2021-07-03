@@ -37,29 +37,29 @@ public class PlaceBetService {
         }
         
         if(request.getCombination() == null || request.getCombination().length() < 8
-                || !request.getCombination().matches("[0-9]")){
+                || request.getCombination().matches("\\D")){
             log.info("Combination is invalid");
             return ErrorHandler.throwResponse(false, "Combination is invalid");
         }
         
         Betting betting = new Betting();
         
-        String combination = request.getCombination();
+        String[] combination = request.getCombination().split("");
         
-        betting.setDigit_0(combination.charAt(0));
-        betting.setDigit_1(combination.charAt(1));
-        betting.setDigit_2(combination.charAt(2));
-        betting.setDigit_3(combination.charAt(3));
-        betting.setDigit_4(combination.charAt(4));
-        betting.setDigit_5(combination.charAt(5));
-        betting.setDigit_6(combination.charAt(6));
-        betting.setDigit_7(combination.charAt(7));
+        betting.setDigit_0(Integer.parseInt(combination[0]));
+        betting.setDigit_1(Integer.parseInt(combination[1]));
+        betting.setDigit_2(Integer.parseInt(combination[2]));
+        betting.setDigit_3(Integer.parseInt(combination[3]));
+        betting.setDigit_4(Integer.parseInt(combination[4]));
+        betting.setDigit_5(Integer.parseInt(combination[5]));
+        betting.setDigit_6(Integer.parseInt(combination[6]));
+        betting.setDigit_7(Integer.parseInt(combination[7]));
         betting.setInsert_datetime(new Date());
         
-        log.info("Placing your bet: " + combination);
+        log.info("Placing your bet: " + request.getCombination());
         bettingDAO.create(betting);
         
-        return ErrorHandler.throwResponse(true, combination);
+        return ErrorHandler.throwResponse(true, request.getCombination());
     }
     
 }

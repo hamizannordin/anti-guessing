@@ -36,4 +36,8 @@ public class AntiGuessingApp extends Application<AntiGuessingConfig> {
         env.jersey().register(new PlaceBetResource(hibernate.getSessionFactory()));
     }
     
+    public static void main(String[]args) throws Exception{
+        new AntiGuessingApp().run(args);
+    }
+    
 }
