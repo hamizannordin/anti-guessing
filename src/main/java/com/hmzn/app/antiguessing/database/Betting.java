@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -36,7 +37,8 @@ public class Betting implements Serializable {
     private int digit_7;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date insert_datetime;
-    //private Round round_id;
+    @JoinColumn(name = "round_id", referencedColumnName="round_id")
+    private Round round;
 
     public Betting() {
     }
@@ -121,11 +123,11 @@ public class Betting implements Serializable {
         this.insert_datetime = insert_datetime;
     }
 
-//    public Round getRound_id() {
-//        return round_id;
-//    }
-//
-//    public void setRound_id(Round round_id) {
-//        this.round_id = round_id;
-//    }
+    public Round getRound() {
+        return round;
+    }
+
+    public void setRound(Round round) {
+        this.round = round;
+    }
 }

@@ -7,7 +7,10 @@ package com.hmzn.app.antiguessing.database;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -20,10 +23,12 @@ import javax.persistence.Table;
 public class Round implements Serializable {
     
     @Id
+    @Column(name = "round_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigInteger round_id;
     private String round_name;
     private boolean status;
-
+  
     public Round() {
     }
 
