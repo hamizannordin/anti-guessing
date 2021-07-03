@@ -11,6 +11,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -21,7 +22,7 @@ import javax.persistence.Table;
 public class Betting implements Serializable {
     
     @Id
-    private BigInteger id;
+    private BigInteger betting_id;
     private int digit_0;
     private int digit_1;
     private int digit_2;
@@ -30,17 +31,19 @@ public class Betting implements Serializable {
     private int digit_5;
     private int digit_6;
     private int digit_7;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date insert_datetime;
+    private Round round_id;
 
     public Betting() {
     }
 
-    public BigInteger getId() {
-        return id;
+    public BigInteger getBetting_id() {
+        return betting_id;
     }
 
-    public void setId(BigInteger id) {
-        this.id = id;
+    public void setBetting_id(BigInteger betting_id) {
+        this.betting_id = betting_id;
     }
 
     public int getDigit_0() {
@@ -113,5 +116,13 @@ public class Betting implements Serializable {
 
     public void setInsert_datetime(Date insert_datetime) {
         this.insert_datetime = insert_datetime;
+    }
+
+    public Round getRound_id() {
+        return round_id;
+    }
+
+    public void setRound_id(Round round_id) {
+        this.round_id = round_id;
     }
 }

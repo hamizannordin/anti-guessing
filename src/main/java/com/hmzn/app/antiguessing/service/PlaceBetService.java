@@ -8,6 +8,7 @@ package com.hmzn.app.antiguessing.service;
 import com.hmzn.app.antiguessing.database.Betting;
 import com.hmzn.app.antiguessing.database.BettingDAO;
 import com.hmzn.app.antiguessing.json.PlaceBetRequest;
+import com.hmzn.app.antiguessing.util.ErrorHandler;
 import java.util.Date;
 import javax.ws.rs.core.Response;
 import org.hibernate.SessionFactory;
@@ -32,13 +33,13 @@ public class PlaceBetService {
         
         if(request == null){
             log.info("Request is null");
-            return throwResponse(false, "Request is null");
+            return ErrorHandler.throwResponse(false, "Request is null");
         }
         
         if(request.getCombination() == null || request.getCombination().length() < 8
                 || !request.getCombination().matches("[0-9]")){
             log.info("Combination is invalid");
-            return throwResponse(false, "Combination is invalid");
+            return ErrorHandler.throwResponse(false, "Combination is invalid");
         }
         
         Betting betting = new Betting();
@@ -58,17 +59,7 @@ public class PlaceBetService {
         log.info("Placing your bet: " + combination);
         bettingDAO.create(betting);
         
-        return throwResponse(true, combination);
-    }
-
-    
-    private Response throwResponse(boolean flag, String message) {
-        if(flag){
-            return Response.status(Response.Status.OK).entity(message).build();
-        }
-        else {
-            return Response.status(Response.Status.BAD_REQUEST).entity(message).build();
-        }
+        return ErrorHandler.throwResponse(true, combination);
     }
     
 }

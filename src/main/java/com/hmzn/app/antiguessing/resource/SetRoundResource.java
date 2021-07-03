@@ -5,8 +5,8 @@
  */
 package com.hmzn.app.antiguessing.resource;
 
-import com.hmzn.app.antiguessing.json.PlaceBetRequest;
-import com.hmzn.app.antiguessing.service.PlaceBetService;
+import com.hmzn.app.antiguessing.json.SetRoundRequest;
+import com.hmzn.app.antiguessing.service.SetRoundService;
 import io.dropwizard.hibernate.UnitOfWork;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -20,22 +20,21 @@ import org.hibernate.SessionFactory;
  *
  * @author hamizan
  */
-@Path("/betting")
-public class PlaceBetResource {
+@Path("/round")
+public class SetRoundResource {
     
-    PlaceBetService service;
+    SetRoundService service;
     
-    public PlaceBetResource (SessionFactory sessionFactory){
-        service = new PlaceBetService(sessionFactory);
+    public SetRoundResource (SessionFactory sessionFactory){
+        service = new SetRoundService(sessionFactory);
     }
     
     @POST
-    @Path("/place")
+    @Path("/create")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @UnitOfWork
-    public Response placeBet (PlaceBetRequest request){
-        return service.placeBet(request);
+    public Response createRound (SetRoundRequest request){
+        return service.createRound(request);
     }
-    
 }
