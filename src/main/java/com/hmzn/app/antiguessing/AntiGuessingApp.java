@@ -10,6 +10,8 @@ import com.hmzn.app.antiguessing.database.Round;
 import com.hmzn.app.antiguessing.resource.BettingResource;
 import com.hmzn.app.antiguessing.resource.RoundResource;
 import io.dropwizard.Application;
+import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
+import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.setup.Bootstrap;
@@ -32,6 +34,11 @@ public class AntiGuessingApp extends Application<AntiGuessingConfig> {
     @Override
     public void initialize(Bootstrap<AntiGuessingConfig> bootstrap) {
         bootstrap.addBundle(hibernate);
+        bootstrap.setConfigurationSourceProvider(
+                new SubstitutingSourceProvider(bootstrap.getConfigurationSourceProvider(),
+                        new EnvironmentVariableSubstitutor(false)
+                )
+        );
     }
     
     /**
