@@ -51,9 +51,9 @@ public class RoundService {
         round.setStatus(true);
         
         log.info("Create new round: " + request.getRoundName());
-        roundDAO.create(round);
+        int roundId = roundDAO.create(round);
         
-        return ResponseHandler.throwResponse(true, request.getRoundName() + " created");
+        return ResponseHandler.throwResponse(true, request.getRoundName() + " created with id: " + roundId);
     }
     
 }

@@ -28,8 +28,8 @@ public class RoundDAO extends AbstractDAO<Round> {
      * Insert new round into table
      * @param round
      */
-    public void create (Round round){
-        persist(round);
+    public int create (Round round){
+        return persist(round).getRound_id().intValue();
     }
 
     /**
