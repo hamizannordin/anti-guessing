@@ -12,6 +12,7 @@ package com.hmzn.app.antiguessing.json;
 public class PlaceBetRequest {
     
     private String combination;
+    private String roundId;
 
     public String getCombination() {
         return combination;
@@ -19,6 +20,14 @@ public class PlaceBetRequest {
 
     public void setCombination(String combination) {
         this.combination = combination;
+    }
+
+    public String getRoundId() {
+        return roundId;
+    }
+
+    public void setRoundId(String roundId) {
+        this.roundId = roundId;
     }
     
 }

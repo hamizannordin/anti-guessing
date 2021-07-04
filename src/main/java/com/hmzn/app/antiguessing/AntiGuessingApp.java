@@ -7,6 +7,7 @@ package com.hmzn.app.antiguessing;
 
 import com.hmzn.app.antiguessing.database.Betting;
 import com.hmzn.app.antiguessing.database.Round;
+import com.hmzn.app.antiguessing.resource.GenerateCombinationResource;
 import com.hmzn.app.antiguessing.resource.PlaceBetResource;
 import com.hmzn.app.antiguessing.resource.SetRoundResource;
 import io.dropwizard.Application;
@@ -37,6 +38,7 @@ public class AntiGuessingApp extends Application<AntiGuessingConfig> {
     public void run(AntiGuessingConfig config, Environment env) throws Exception {
         env.jersey().register(new PlaceBetResource(hibernate.getSessionFactory()));
         env.jersey().register(new SetRoundResource(hibernate.getSessionFactory()));
+        env.jersey().register(new GenerateCombinationResource(hibernate.getSessionFactory()));
     }
     
     public static void main(String[]args) throws Exception{

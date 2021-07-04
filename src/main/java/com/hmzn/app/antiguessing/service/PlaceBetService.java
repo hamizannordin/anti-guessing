@@ -7,8 +7,10 @@ package com.hmzn.app.antiguessing.service;
 
 import com.hmzn.app.antiguessing.database.Betting;
 import com.hmzn.app.antiguessing.database.BettingDAO;
+import com.hmzn.app.antiguessing.database.Round;
+import com.hmzn.app.antiguessing.database.RoundDAO;
 import com.hmzn.app.antiguessing.json.PlaceBetRequest;
-import com.hmzn.app.antiguessing.util.ErrorHandler;
+import com.hmzn.app.antiguessing.util.ResponseHandler;
 import java.util.Date;
 import javax.ws.rs.core.Response;
 import org.hibernate.SessionFactory;
@@ -24,22 +26,36 @@ public class PlaceBetService {
     Logger log = LoggerFactory.getLogger(getClass().getName());
     
     BettingDAO bettingDAO;
+    RoundDAO roundDAO;
 
     public PlaceBetService(SessionFactory sessionFactory) {
         bettingDAO = new BettingDAO(sessionFactory);
+        roundDAO = new RoundDAO(sessionFactory);
     }
 
     public Response placeBet(PlaceBetRequest request) {
         
         if(request == null){
             log.info("Request is null");
-            return ErrorHandler.throwResponse(false, "Request is null");
+            return ResponseHandler.throwResponse(false, "Request is null");
         }
         
         if(request.getCombination() == null || request.getCombination().length() < 8
                 || request.getCombination().matches("\\D")){
             log.info("Combination is invalid");
-            return ErrorHandler.throwResponse(false, "Combination is invalid");
+            return ResponseHandler.throwResponse(false, "Combination is invalid");
+        }
+        
+        if(request.getRoundId() == null || request.getRoundId().isEmpty()){
+            log.info("Round id is null or empty");
+            return ResponseHandler.throwResponse(false, "Round id is null or empty");
+        }
+        
+        Round round = roundDAO.findByRoundId(request.getRoundId());
+        
+        if(round == null){
+            log.info("Round not found");
+            return ResponseHandler.throwResponse(false, "Round not found");
         }
         
         Betting betting = new Betting();
@@ -55,11 +71,12 @@ public class PlaceBetService {
         betting.setDigit_6(Integer.parseInt(combination[6]));
         betting.setDigit_7(Integer.parseInt(combination[7]));
         betting.setInsert_datetime(new Date());
+        betting.setRound(round);
         
         log.info("Placing your bet: " + request.getCombination());
         bettingDAO.create(betting);
         
-        return ErrorHandler.throwResponse(true, request.getCombination());
+        return ResponseHandler.throwResponse(true, request.getCombination());
     }
     
 }

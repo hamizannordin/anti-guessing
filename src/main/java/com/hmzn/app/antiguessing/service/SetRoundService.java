@@ -8,7 +8,7 @@ package com.hmzn.app.antiguessing.service;
 import com.hmzn.app.antiguessing.database.Round;
 import com.hmzn.app.antiguessing.database.RoundDAO;
 import com.hmzn.app.antiguessing.json.SetRoundRequest;
-import com.hmzn.app.antiguessing.util.ErrorHandler;
+import com.hmzn.app.antiguessing.util.ResponseHandler;
 import javax.ws.rs.core.Response;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -33,7 +33,7 @@ public class SetRoundService {
         if(request == null || request.getRoundName() == null
                 || request.getRoundName().isEmpty()){
             log.info("Request is null");
-            return ErrorHandler.throwResponse(false, "Request is null");
+            return ResponseHandler.throwResponse(false, "Request is null");
         }
         
         Round round = new Round();
@@ -43,7 +43,7 @@ public class SetRoundService {
         log.info("Create new round: " + request.getRoundName());
         roundDAO.create(round);
         
-        return ErrorHandler.throwResponse(true, request.getRoundName() + " created");
+        return ResponseHandler.throwResponse(true, request.getRoundName() + " created");
     }
     
 }

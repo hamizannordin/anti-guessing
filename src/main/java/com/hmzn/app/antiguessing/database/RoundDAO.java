@@ -6,6 +6,7 @@
 package com.hmzn.app.antiguessing.database;
 
 import io.dropwizard.hibernate.AbstractDAO;
+import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 
 /**
@@ -20,5 +21,20 @@ public class RoundDAO extends AbstractDAO<Round> {
     
     public void create (Round round){
         persist(round);
+    }
+
+    public Round findByRoundId(String roundId) {
+        Round round;
+        String sql = "SELECT * FROM ROUND WHERE round_id=:roundId";
+        try {
+            Query q = currentSession().createNativeQuery(sql, Round.class);
+            q.setParameter("roundId", roundId);
+            round = (Round) q.getSingleResult();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            round = null;
+        }
+        return round;
     }
 }

@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
  *
  * @author hamizan
  */
-public class ErrorHandler {
+public class ResponseHandler {
     
     public static Response throwResponse(boolean flag, String message) {
         if(flag){
