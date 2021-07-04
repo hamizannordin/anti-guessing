@@ -6,7 +6,8 @@
 package com.hmzn.app.antiguessing.json;
 
 /**
- *
+ * JSON structure for creating new bet
+ * 
  * @author hamizan
  */
 public class PlaceBetRequest {

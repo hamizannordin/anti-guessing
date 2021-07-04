@@ -11,7 +11,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
- *
+ * Initialized configuration from config.yml
+ * 
  * @author hamizan
  */
 public class AntiGuessingConfig extends Configuration {

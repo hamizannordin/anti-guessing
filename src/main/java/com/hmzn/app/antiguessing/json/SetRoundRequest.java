@@ -6,7 +6,8 @@
 package com.hmzn.app.antiguessing.json;
 
 /**
- *
+ * JSON structure for creating new round
+ * 
  * @author hamizan
  */
 public class SetRoundRequest {

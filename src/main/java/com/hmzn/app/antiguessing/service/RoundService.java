@@ -15,19 +15,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Business logic related to round
+ * 
  * @author hamizan
  */
-public class SetRoundService {
+public class RoundService {
 
     Logger log = LoggerFactory.getLogger(getClass().getName());
     
     RoundDAO roundDAO;
     
-    public SetRoundService(SessionFactory sessionFactory) {
+    /**
+     * Initialized DAO
+     * @param sessionFactory
+     */
+    public RoundService(SessionFactory sessionFactory) {
         roundDAO = new RoundDAO(sessionFactory);
     }
 
+    /**
+     * Create new round
+     * @param request setRoundRequest
+     * @return success or fail
+     */
     public Response createRound(SetRoundRequest request) {
         
         if(request == null || request.getRoundName() == null

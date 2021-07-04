@@ -15,7 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- *
+ * POJO representation of table ROUND
+ * 
  * @author hamizan
  */
 @Entity

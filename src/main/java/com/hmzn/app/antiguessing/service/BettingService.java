@@ -12,27 +12,38 @@ import com.hmzn.app.antiguessing.database.RoundDAO;
 import com.hmzn.app.antiguessing.json.PlaceBetRequest;
 import com.hmzn.app.antiguessing.util.ResponseHandler;
 import java.util.Date;
+import java.util.List;
 import javax.ws.rs.core.Response;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Business logic for betting
+ * 
  * @author hamizan
  */
-public class PlaceBetService {
+public class BettingService {
     
     Logger log = LoggerFactory.getLogger(getClass().getName());
     
     BettingDAO bettingDAO;
     RoundDAO roundDAO;
 
-    public PlaceBetService(SessionFactory sessionFactory) {
+    /**
+     * Initialized DAO
+     * @param sessionFactory
+     */
+    public BettingService(SessionFactory sessionFactory) {
         bettingDAO = new BettingDAO(sessionFactory);
         roundDAO = new RoundDAO(sessionFactory);
     }
 
+    /**
+     * Insert new bet
+     * @param request placeBetRequest
+     * @return success or fail
+     */
     public Response placeBet(PlaceBetRequest request) {
         
         if(request == null){
@@ -77,6 +88,52 @@ public class PlaceBetService {
         bettingDAO.create(betting);
         
         return ResponseHandler.throwResponse(true, request.getCombination());
+    }
+
+    /**
+     * Find all bet on specific round
+     * @param roundId
+     * @return list or fail
+     */
+    public Response viewBet(String roundId) {
+        
+        List<Betting> listBetting = bettingDAO.getAllBettingByRoundId(roundId);
+        
+        if(listBetting == null || listBetting.isEmpty()){
+            log.info("No betting found for round-id: " + roundId);
+            return ResponseHandler.throwResponse(false, "No betting found");
+        }
+        
+        log.info("Betting found! " + listBetting.size());
+        return ResponseHandler.throwResponse(true, listBetting.toString());
+    }
+
+    /**
+     * Find specific bet on specific round
+     * @param combination
+     * @param roundId
+     * @return betting or fail
+     */
+    public Response findBet(String combination, String roundId) {
+        
+        if(combination == null || combination.isEmpty() || combination.length() < 8){
+            log.info("Combination is null, empty or invalid");
+            return ResponseHandler.throwResponse(false, "Combination is null, empty or invalid");
+        }
+        if(roundId == null || roundId.isEmpty()){
+            log.info("Round-id is null or empty");
+            return ResponseHandler.throwResponse(false, "Round-id is null or empty");
+        }
+        
+        Betting betting = bettingDAO.getBettingByRoundId(combination.split(""), roundId);
+        
+        if(betting == null){
+            log.info("No betting found");
+            return ResponseHandler.throwResponse(false, "No betting found");
+        }
+        
+        log.info("Betting found");
+        return ResponseHandler.throwResponse(true, betting.toString());
     }
     
 }

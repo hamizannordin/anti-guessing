@@ -8,21 +8,35 @@ package com.hmzn.app.antiguessing.database;
 import io.dropwizard.hibernate.AbstractDAO;
 import javax.persistence.Query;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Contains query related to table ROUND
+ * 
  * @author hamizan
  */
 public class RoundDAO extends AbstractDAO<Round> {
+    
+    Logger log = LoggerFactory.getLogger(getClass().getName());
     
     public RoundDAO(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
     
+    /**
+     * Insert new round into table
+     * @param round
+     */
     public void create (Round round){
         persist(round);
     }
 
+    /**
+     * Find specific round by id
+     * @param roundId
+     * @return round
+     */
     public Round findByRoundId(String roundId) {
         Round round;
         String sql = "SELECT * FROM ROUND WHERE round_id=:roundId";
@@ -32,7 +46,7 @@ public class RoundDAO extends AbstractDAO<Round> {
             round = (Round) q.getSingleResult();
         }
         catch(Exception e){
-            e.printStackTrace();
+            log.error(e.getMessage());
             round = null;
         }
         return round;

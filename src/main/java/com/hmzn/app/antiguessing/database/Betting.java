@@ -18,7 +18,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 
 /**
- *
+ * POJO representation of table BETTING
+ * 
  * @author hamizan
  */
 @Entity
@@ -131,5 +132,12 @@ public class Betting implements Serializable {
 
     public void setRound(Round round) {
         this.round_id = round;
+    }
+
+    @Override
+    public String toString() {
+        return "{" + "\"betting_id\": \"" + betting_id + "\", \"combination\": \"" + digit_0 + 
+                digit_1 + digit_2 + digit_3 + digit_4 + digit_5 + digit_6 +
+                digit_7 + "\"}";
     }
 }

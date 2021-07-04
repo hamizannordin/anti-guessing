@@ -7,9 +7,8 @@ package com.hmzn.app.antiguessing;
 
 import com.hmzn.app.antiguessing.database.Betting;
 import com.hmzn.app.antiguessing.database.Round;
-import com.hmzn.app.antiguessing.resource.GenerateCombinationResource;
-import com.hmzn.app.antiguessing.resource.PlaceBetResource;
-import com.hmzn.app.antiguessing.resource.SetRoundResource;
+import com.hmzn.app.antiguessing.resource.BettingResource;
+import com.hmzn.app.antiguessing.resource.RoundResource;
 import io.dropwizard.Application;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
@@ -17,7 +16,8 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
 /**
- *
+ * Register resource, initialized database session and run the app
+ * 
  * @author hamizan
  */
 public class AntiGuessingApp extends Application<AntiGuessingConfig> {
@@ -34,13 +34,23 @@ public class AntiGuessingApp extends Application<AntiGuessingConfig> {
         bootstrap.addBundle(hibernate);
     }
     
+    /**
+     * Register resource and pass the database session
+     * @param config from AntiGuessingConfig
+     * @param env
+     * @throws Exception
+     */
     @Override
     public void run(AntiGuessingConfig config, Environment env) throws Exception {
-        env.jersey().register(new PlaceBetResource(hibernate.getSessionFactory()));
-        env.jersey().register(new SetRoundResource(hibernate.getSessionFactory()));
-        env.jersey().register(new GenerateCombinationResource(hibernate.getSessionFactory()));
+        env.jersey().register(new BettingResource(hibernate.getSessionFactory()));
+        env.jersey().register(new RoundResource(hibernate.getSessionFactory()));
     }
     
+    /**
+     * Run the app
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[]args) throws Exception{
         new AntiGuessingApp().run(args);
     }
