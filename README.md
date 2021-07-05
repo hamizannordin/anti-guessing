@@ -58,7 +58,8 @@ Alternatively, you can import project into NetBeans.
 
    Method | Path | Request
    ------- | ------------- | -----------
-   POST | /betting/place | { "combination": "38330504", "roundId": "2" }
+   POST | /betting/place | { "roundId": "2", "combination": "38330504" }
+   POST | /betting/placeList | { "roundId": "6", "combination": [ "12345678", "12345678", "12345678" ] }
 
 3. Get the generated combination as below;
 
