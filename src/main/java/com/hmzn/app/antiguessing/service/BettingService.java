@@ -9,6 +9,7 @@ import com.hmzn.app.antiguessing.database.Betting;
 import com.hmzn.app.antiguessing.database.BettingDAO;
 import com.hmzn.app.antiguessing.database.Round;
 import com.hmzn.app.antiguessing.database.RoundDAO;
+import com.hmzn.app.antiguessing.json.PlaceBetListRequest;
 import com.hmzn.app.antiguessing.json.PlaceBetRequest;
 import com.hmzn.app.antiguessing.util.ResponseHandler;
 import java.util.Date;
@@ -51,8 +52,8 @@ public class BettingService {
             return ResponseHandler.throwResponse(false, "Request is null");
         }
         
-        if(request.getCombination() == null || request.getCombination().length() < 8
-                || request.getCombination().matches("\\D")){
+        if(request.getCombination() == null || request.getCombination().length() != 8
+                || !request.getCombination().matches("[0-9]+")){
             log.info("Combination is invalid");
             return ResponseHandler.throwResponse(false, "Combination is invalid");
         }
@@ -134,6 +135,57 @@ public class BettingService {
         
         log.info("Betting found");
         return ResponseHandler.throwResponse(true, betting.toString());
+    }
+
+    /**
+     * Inset new bet in list
+     * @param request placeBetListRequest
+     * @return  success or fail
+     */
+    public Response placeBetList(PlaceBetListRequest request) {
+        if(request == null){
+            log.info("Betting list is null");
+            return ResponseHandler.throwResponse(false, "Betting list is null");
+        }
+        if(request.getRoundId() == null || request.getRoundId().isEmpty()){
+            log.info("Round id is null, empty or invalid");
+            return ResponseHandler.throwResponse(false, "Round id is null, empty or invalid");
+        }
+        
+        List<String> combinationList = request.getCombination();
+        
+        if(combinationList == null || combinationList.isEmpty()){
+            log.info("Betting list is null or empty");
+            return ResponseHandler.throwResponse(false, "Betting list is null or empty");
+        }
+        
+        log.info("Total betting to be insert: " + combinationList.size());
+        
+        int successInsertCount = 0;
+        int failedInsertCount = 0;
+        
+        String failedCombination = "\n\nFailed combination:\n";
+        
+        for(String combination : combinationList){
+            PlaceBetRequest betRequest = new PlaceBetRequest();
+            betRequest.setRoundId(request.getRoundId());
+            betRequest.setCombination(combination);
+            
+            Response insertResponse = placeBet(betRequest);
+            
+            if(insertResponse.getStatus() == 200){
+                successInsertCount ++;
+            }
+            else {
+                failedInsertCount ++;
+                failedCombination += combination + "\n";
+            }
+        }
+        
+        String result = "Finish inserting bet. Success: " + successInsertCount +
+                ", Failed: " + failedInsertCount;
+        log.info(result);
+        return ResponseHandler.throwResponse(true, result + failedCombination);
     }
     
 }

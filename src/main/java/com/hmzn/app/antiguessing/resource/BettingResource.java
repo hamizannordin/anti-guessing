@@ -5,6 +5,7 @@
  */
 package com.hmzn.app.antiguessing.resource;
 
+import com.hmzn.app.antiguessing.json.PlaceBetListRequest;
 import com.hmzn.app.antiguessing.json.PlaceBetRequest;
 import com.hmzn.app.antiguessing.service.GenerateService;
 import com.hmzn.app.antiguessing.service.BettingService;
@@ -51,6 +52,20 @@ public class BettingResource {
     @UnitOfWork
     public Response placeBet (PlaceBetRequest request){
         return bettingService.placeBet(request);
+    }
+    
+    /**
+     * Create new bet list
+     * @param request placeBetListRequest
+     * @return success or fail
+     */
+    @POST
+    @Path("/placeList")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @UnitOfWork
+    public Response placeBetList (PlaceBetListRequest request){
+        return bettingService.placeBetList(request);
     }
     
     /**
