@@ -187,5 +187,60 @@ public class BettingService {
         log.info(result);
         return ResponseHandler.throwResponse(true, result + failedCombination);
     }
+
+    /**
+     * Auto generate betting
+     * @param roundId
+     * @param total number of bet to generate
+     * @return list of generated bets
+     */
+    public Response autoBet(String roundId, int total) {
+        
+        if(total <= 0 || total > Integer.MAX_VALUE){
+            log.info("Total bet to auto create is invalid");
+            return ResponseHandler.throwResponse(false, "Total bet to auto create is invalid");
+        }
+        
+        Round round = roundDAO.findByRoundId(roundId);
+        
+        if(round == null){
+            log.info("Round not found");
+            return ResponseHandler.throwResponse(false, "Round not found");
+        }
+        
+        String listCombination = "Autobet for round: " + roundId + "\n\n";
+        int successCount = 0;
+        int failedCount = 0;
+        
+        for(int i = 0; i < total; i++){
+            
+            String combination = "";
+            
+            for(int digit = 0; digit < 8; digit++){
+                int number = new java.util.Random().nextInt(10);
+                combination += Integer.toString(number);
+            }
+            
+            log.info("Combination " + i + ", " + combination);
+            
+            PlaceBetRequest placeBetRequest = new PlaceBetRequest();
+            placeBetRequest.setRoundId(roundId);
+            placeBetRequest.setCombination(combination);
+            
+            Response placeBetResponse = placeBet(placeBetRequest);
+            
+            if(placeBetResponse.getStatus() == 200){
+                successCount ++;
+            } else {
+                failedCount ++;
+            }
+            
+            listCombination += combination + "\n";
+        }
+        
+        log.info("Success: " + successCount + ", Failed: " + failedCount);
+        
+        return ResponseHandler.throwResponse(true, listCombination);
+    }
     
 }
