@@ -79,5 +79,11 @@ Alternatively, you can import project into NetBeans.
    ------- | ------------- | -----------
    GET | /betting/view | round-id
 
-6. Hit me up if you are lucky :grin:
+6. You can also auto generate the betting if you don't have someone to play with. Select round and insert total number of bettings needed.
+
+    Method | Path | Param
+   ------- | ------------- | -----------
+    GET | /betting/autobet/{round-id} | total
+
+7. Hit me up if you are lucky :grin:
 
