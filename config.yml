@@ -31,3 +31,30 @@ database:
 
   # whether or not idle connections should be validated
   checkConnectionWhileIdle: false
+
+logging:
+  # Root logger level
+  level: INFO
+  loggers:
+    # This package will have DEBUG level
+    "com.hamizan.app": DEBUG
+    "org.hibernate.engine": ERROR
+  appenders:
+    # Log to stderr/netbeans output. Comment or remove this appenders if running in the server
+    - type: console
+      target: stderr
+      timeZone: Asia/Kuala_Lumpur
+      logFormat: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{5} [%thread] - %msg%n"      
+    # Log to log file.
+    # Log info, warnings and errors to log file.
+    # Rolled over daily
+
+    - type: file
+      currentLogFilename: ./logs/anti-guessing.log
+      archivedLogFilenamePattern: ./logs/anti-guessing-%d-%i.log.gz
+      maxFileSize: 3MB
+      archivedFileCount: 20
+      # The timezone used to format dates. Without this your log time will be off
+      timeZone: Asia/Kuala_Lumpur
+      logFormat: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{5} [%thread] - %msg%n"
+

@@ -14,6 +14,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -108,5 +109,22 @@ public class BettingResource {
             @QueryParam("combination") String combination,
             @QueryParam("round-id") String roundId){
         return bettingService.findBet(combination, roundId);
+    }
+    
+    /**
+     * Auto generate betting according to 
+     * the total number needed
+     * @param roundId
+     * @param total
+     * @return list of betting
+     */
+    @GET
+    @Path("/autobet/{round-id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @UnitOfWork
+    public Response autoBet (
+            @PathParam("round-id") String roundId,
+            @QueryParam("total") int total) {
+        return bettingService.autoBet(roundId, total);
     }
 }
